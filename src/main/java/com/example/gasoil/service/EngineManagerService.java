@@ -28,13 +28,25 @@ public class EngineManagerService implements EngineManager{
         return engineRepository.findAll();
     }
 
+    // return engine by Matricule (the exact maticule)
     @Override
     public Engine getEngineByMatricule(String matricule) {
         return engineRepository.findEngineByMatricule(matricule);
     }
 
+    // return engine containing matricule ignoring cases
     @Override
     public List<Engine> searchEngine(String matricule) {
         return engineRepository.findEngineByMatriculeContainingIgnoreCase(matricule);
     }
+
+
+    // return the number of engines in database
+    @Override
+    public int getTotalEngines() {
+        int taille = engineRepository.findAll().size();
+        return taille;
+    }
+
+
 }

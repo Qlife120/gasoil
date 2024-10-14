@@ -26,7 +26,7 @@ public class EngineController {
         this.engineManagerService = engineManagerService;
     }
 
-    @PostMapping(path="/api/newengine")
+    @PostMapping(path="/api/engine/newengine")
     public ResponseEntity<Object> addEngine(@RequestParam(name ="matricule") String matricule, @RequestParam(name= "engineName") String engineName) {
         logger.info("adding a new engine with matricule {}", matricule  );
         Engine newEngine = new Engine(matricule, engineName);
@@ -35,18 +35,25 @@ public class EngineController {
 
     }
 
-    @GetMapping(path="/api/engines")
+    @GetMapping(path="/api/engine/engines")
     public ResponseEntity<Object> getAllEngines(){
         logger.info("return all engines of database."); 
         List<Engine> engines = engineManagerService.getAllEngines();
         return new ResponseEntity<>(engines, HttpStatus.OK);
     }
 
-    @GetMapping(path="/api/enginesearch")
+    @GetMapping(path="/api/engine/enginesearch")
     public ResponseEntity<Object> getEngineByMatricule(String matricule){
         logger.info("return the engine with the matricule {}", matricule);
         List<Engine> enginesByMatricule = engineManagerService.searchEngine(matricule);
         return new ResponseEntity<>(enginesByMatricule,HttpStatus.OK);
     }
 
+    @GetMapping(path="/api/engine/totalengines")
+    public  ResponseEntity<Object> getTotalEngines(){
+        logger.info("return total of engines in database.");
+        int totalEngines = engineManagerService.getTotalEngines();
+        return new ResponseEntity<>(totalEngines,HttpStatus.OK);
+
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 public interface ConsumptionRepository extends JpaRepository<Consumption, Integer> {
@@ -14,4 +15,5 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Intege
     public  Consumption findConsumptionByConsumptionId(Integer id);
     public List<Consumption> findAllByEngine(Engine engine);
     public Consumption findConsumptionsByConsumptionDateBetween(LocalDate startDate, LocalDate endDate);
+    public List<Consumption> findAll();
 }

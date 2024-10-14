@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@NonNull
 public class Engine {
 
     @Id
@@ -23,6 +25,7 @@ public class Engine {
    // matricule de vehicule alphanumerique ou Numerique ex: 45676-A-13 => 45676A13
     @NotEmpty
     @Pattern(regexp = "[A-Za-z0-9 ]*")
+    @Column(unique = true)
     private String matricule;
     private String engineName;
     // Every attribute below is optional
