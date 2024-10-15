@@ -13,4 +13,6 @@ public interface EngineManager {
     public Engine getEngineByMatricule(String matricule);
     public List<Engine> searchEngine(String matricule);
     public int getTotalEngines();
+    public List<Engine> getLastTenEnginesAdded();
+
 }

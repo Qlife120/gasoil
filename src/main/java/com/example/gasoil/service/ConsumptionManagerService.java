@@ -107,6 +107,7 @@ public class ConsumptionManagerService implements ConsumptionManager{
         return  getTotalConsumptionByMonth(currentMonth);
     }
 
+    // return a Pair , first contains the matricule second the max consumption of the engine in the current month
     @Override
     public Pair<String, Double> getMaxTotalConsumptionCurrentMonth() {
         List<Consumption> consumptionsCurrentMonth = consumptionRepository.findAll();
@@ -135,5 +136,6 @@ public class ConsumptionManagerService implements ConsumptionManager{
 
     }
 
+    
 
 }

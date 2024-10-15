@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EngineManagerService implements EngineManager{
@@ -20,7 +21,11 @@ public class EngineManagerService implements EngineManager{
 
     @Override
     public Engine addEngine(Engine engine) {
-        return engineRepository.save(engine);
+        Optional<Engine> existingEngine = engineRepository.findByMatricule(engine.getMatricule());
+        if(existingEngine.isPresent()){
+            throw new IllegalArgumentException("An engine with this matricuLe exists already in database.");
+        }
+        return  engineRepository.save(engine);
     }
 
     @Override
@@ -28,7 +33,7 @@ public class EngineManagerService implements EngineManager{
         return engineRepository.findAll();
     }
 
-    // return engine by Matricule (the exact maticule)
+    // return engine by Matricule (the exact matricule)
     @Override
     public Engine getEngineByMatricule(String matricule) {
         return engineRepository.findEngineByMatricule(matricule);
@@ -47,6 +52,13 @@ public class EngineManagerService implements EngineManager{
         int taille = engineRepository.findAll().size();
         return taille;
     }
+    // return the last 10 engines added to database
+    @Override
+    public List<Engine> getLastTenEnginesAdded() {
+        return engineRepository.findlastEnginesAdded();
+    }
+
+
 
 
 }

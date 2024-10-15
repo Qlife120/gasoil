@@ -49,11 +49,19 @@ public class EngineController {
         return new ResponseEntity<>(enginesByMatricule,HttpStatus.OK);
     }
 
+    // return total engines in db.
     @GetMapping(path="/api/engine/totalengines")
     public  ResponseEntity<Object> getTotalEngines(){
         logger.info("return total of engines in database.");
         int totalEngines = engineManagerService.getTotalEngines();
         return new ResponseEntity<>(totalEngines,HttpStatus.OK);
-
     }
+
+    @GetMapping(path="/api/engine/lastenginesadded")
+    public ResponseEntity<Object> getLastTenEnginesadded(){
+        logger.info("return 10 last engines added to database.");
+        List<Engine> lastenginesadded = engineManagerService.getLastTenEnginesAdded();
+        return new ResponseEntity<>(lastenginesadded,HttpStatus.OK);
+    }
+
 }

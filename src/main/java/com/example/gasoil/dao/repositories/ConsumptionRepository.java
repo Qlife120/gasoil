@@ -14,6 +14,6 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Intege
 
     public  Consumption findConsumptionByConsumptionId(Integer id);
     public List<Consumption> findAllByEngine(Engine engine);
-    public Consumption findConsumptionsByConsumptionDateBetween(LocalDate startDate, LocalDate endDate);
+    public Consumption findConsumptionsByConsumptionDateBetweenAndEngine(LocalDate startDate, LocalDate endDate, Engine engine);
     public List<Consumption> findAll();
 }
