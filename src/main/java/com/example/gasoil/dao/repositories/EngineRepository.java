@@ -13,7 +13,9 @@ public interface EngineRepository extends JpaRepository<Engine, Integer> {
    Engine findEngineByEngineId(Integer id);
    Engine findEngineByMatricule(String matricule);
    List<Engine> findEngineByMatriculeContainingIgnoreCase(String matricule);
+   // return the last 10 engines added to database
    @Query(value="SELECT  * FROM  engine ORDER BY engine_id DESC LIMIT 10", nativeQuery = true)
    List<Engine> findlastEnginesAdded();
+
    Optional<Engine> findByMatricule(String matricule);
 }

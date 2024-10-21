@@ -95,6 +95,7 @@ public class ConsumptionController {
    public ResponseEntity<Object> getMaxConsumptionOfMonth(){
         logger.info("return max total consumption of the current month.");
        Pair<String,Double> maxTotalConsumption = consumptionManagerService.getMaxTotalConsumptionCurrentMonth();
+
        return new ResponseEntity<>(maxTotalConsumption,HttpStatus.OK);
    }
 

@@ -28,6 +28,7 @@ public class Engine {
     @Column(unique = true)
     private String matricule;
     private String engineName;
+
     // Every attribute below is optional
     private String description;
     // Etat du vehicule En marche, en panne , defectueux.
@@ -37,6 +38,7 @@ public class Engine {
     @OneToMany(mappedBy = "engine")
     @JsonIgnore
     private List<Consumption> consumptionList;
+
 
     public Engine(String matricule, String engineName){
         this.matricule = matricule;

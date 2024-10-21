@@ -28,8 +28,15 @@ public class ConsumptionManagerService implements ConsumptionManager{
 
     @Override
     public Consumption addConsumption(Consumption consumption) {
-        if (consumption.getEngine()== null  ) {
+        LocalDate today = LocalDate.now();
+        if (consumption.getEngine()== null ) {
             throw new IllegalArgumentException("Engine matricule is not found in the database.");
+        }
+        if(consumption.getConsumptionDate().isAfter(today)){
+            throw new IllegalArgumentException("Date in the future can't be added");
+        }
+        if(consumption.getConsumption()<=0){
+            throw new IllegalArgumentException("consumption value is negative or null.");
         }
         return consumptionRepository.save(consumption);
     }
@@ -66,6 +73,8 @@ public class ConsumptionManagerService implements ConsumptionManager{
     }
 
     // Data Set of the consumption of an engine between two date -> Graph
+    // should be fixed
+
     @Override
     public List<Consumption> getConsumptionsDataGraph(String matricule, LocalDate startDate, LocalDate endDate) {
         List<Consumption> consumptions = getAllConsumptionsByEngine(matricule);
@@ -73,6 +82,7 @@ public class ConsumptionManagerService implements ConsumptionManager{
         if(engine==null){
             throw new IllegalArgumentException("engine with matricule " + matricule + "not found;");
         }
+
         List<Consumption> filteredConsumptions = new ArrayList<>();
         for (Consumption consumption : consumptions) {
             LocalDate consumptionDate = consumption.getConsumptionDate();
@@ -133,9 +143,5 @@ public class ConsumptionManagerService implements ConsumptionManager{
         }
 
         return Pair.of("0000",0.0);
-
     }
-
-    
-
 }
