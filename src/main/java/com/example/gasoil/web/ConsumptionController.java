@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.TreeMap;
 
 @RestController
 @Slf4j
@@ -43,7 +44,12 @@ public class ConsumptionController {
         return new ResponseEntity<>(newConsumption,HttpStatus.OK);
 
     }
-
+    @GetMapping(path="api/consumption/allconsumptions")
+    public ResponseEntity<Object> getAllConsumptions(){
+        logger.info("return all consumptions.");
+        List<Consumption> consumptionsByMatricule = consumptionManagerService.getAll();
+        return new ResponseEntity<>(consumptionsByMatricule, HttpStatus.OK);
+    }
     // Return all the consumptions of a specific engine by its matricule.
     // Tested
    @GetMapping(path="api/consumption/consumptions")
@@ -67,7 +73,7 @@ public class ConsumptionController {
    @GetMapping(path="api/consumption/graphconsumptions")
    public ResponseEntity<Object> getGraphConsumption(@RequestParam(name="matricule") String matricule, LocalDate startDate, LocalDate endDate){
         logger.info("return data for consumptions graphs by engine.");
-        List<Consumption> consumptionsDataGraph =   consumptionManagerService.getConsumptionsDataGraph(matricule,startDate,endDate);
+        TreeMap<LocalDate,Double> consumptionsDataGraph =   consumptionManagerService.getConsumptionsDataGraph(matricule,startDate,endDate);
         return new ResponseEntity<>(consumptionsDataGraph,HttpStatus.OK);
     }
 
@@ -89,7 +95,7 @@ public class ConsumptionController {
         return new ResponseEntity<>(totalConsumptionByMonth, HttpStatus.OK);
    }
 
-   // return a pair engine name and it's consumption (Max consumption of the current month)
+   // return a pair of engine name , and it's consumption (Max consumption of the current month)
    // tested
    @GetMapping(path="api/consumption/maxtotalconsumption")
    public ResponseEntity<Object> getMaxConsumptionOfMonth(){
@@ -99,7 +105,12 @@ public class ConsumptionController {
        return new ResponseEntity<>(maxTotalConsumption,HttpStatus.OK);
    }
 
-
+   @GetMapping(path="api/consumption/lasttenenginesadded")
+   public ResponseEntity<Object> getLastTenenginesadded(){
+        logger.info("return last ten consumptions added to database.");
+        List<Consumption> lastTenEnginesadded = consumptionManagerService.getLastTenConsumptions();
+        return new ResponseEntity<>(lastTenEnginesadded,HttpStatus.OK);
+   }
 
 
 

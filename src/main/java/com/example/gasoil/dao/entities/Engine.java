@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import org.springframework.stereotype.Component;
+
 
 import java.util.List;
 
@@ -44,10 +44,6 @@ public class Engine {
         this.matricule = matricule;
         this.engineName = engineName;
     }
-
-
-
-
 
 
 }

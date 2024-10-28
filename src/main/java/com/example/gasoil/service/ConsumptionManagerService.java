@@ -73,17 +73,22 @@ public class ConsumptionManagerService implements ConsumptionManager{
     }
 
     // Data Set of the consumption of an engine between two date -> Graph
-    // should be fixed
+    // bug fixed: returns a treeMap of dates and totalConsumption of date within the range startDate and endDate
+    // the worst function ever made
+    public TreeMap<LocalDate, Double> getConsumptionsDataGraph(String matricule, LocalDate startDate, LocalDate endDate) {
 
-    @Override
-    public List<Consumption> getConsumptionsDataGraph(String matricule, LocalDate startDate, LocalDate endDate) {
         List<Consumption> consumptions = getAllConsumptionsByEngine(matricule);
+        // check if the engine is not null, not necessary in the new version 
         Engine engine = engineRepository.findEngineByMatricule(matricule);
         if(engine==null){
             throw new IllegalArgumentException("engine with matricule " + matricule + "not found;");
         }
 
+        // list with all consumptions with dateConsumption between startDate and endDate.
         List<Consumption> filteredConsumptions = new ArrayList<>();
+
+        // can be done without the for loop 
+
         for (Consumption consumption : consumptions) {
             LocalDate consumptionDate = consumption.getConsumptionDate();
 
@@ -92,8 +97,22 @@ public class ConsumptionManagerService implements ConsumptionManager{
 
             }
         }
-        filteredConsumptions.sort(Comparator.comparing(Consumption::getConsumptionDate));
-        return filteredConsumptions;
+        // Map with key: dateConsumption and value the total consumption of the date.
+
+        Map<LocalDate, Double> filteredConsumptionMap = new HashMap<>();
+
+        for (Consumption consumption: filteredConsumptions){
+            LocalDate consumptionDate = consumption.getConsumptionDate();
+            double consumptionValue = consumption.getConsumption();
+
+            // merge: if the key already exists, we sum values. (Total of consumption) 
+
+            filteredConsumptionMap.merge(consumptionDate,consumptionValue, Double:: sum);
+        }
+        TreeMap<LocalDate, Double> filteredConsumptionsTreeMap = new TreeMap<>();
+        filteredConsumptionsTreeMap.putAll(filteredConsumptionMap);
+
+        return filteredConsumptionsTreeMap;
     }
 
     // Month = currentMonth for dashboard case
@@ -118,10 +137,18 @@ public class ConsumptionManagerService implements ConsumptionManager{
     }
 
     // return a Pair , first contains the matricule second the max consumption of the engine in the current month
+    // find other way
+
+    // last 30 days
+
     @Override
     public Pair<String, Double> getMaxTotalConsumptionCurrentMonth() {
+
+        // bug: we return all consumptions (Solution) => return only consumptions of the month
         List<Consumption> consumptionsCurrentMonth = consumptionRepository.findAll();
+
         Map<Integer,Double> consumptionsByEngineMap = new HashMap<>();
+        
         int currentMonth = LocalDate.now().getMonthValue();
         for(Consumption consumption : consumptionsCurrentMonth){
             if(consumption.getConsumptionDate().getMonthValue()== currentMonth){
@@ -144,4 +171,15 @@ public class ConsumptionManagerService implements ConsumptionManager{
 
         return Pair.of("0000",0.0);
     }
+
+    @Override
+    public List<Consumption> getLastTenConsumptions() {
+        return consumptionRepository.findlastConsumptionAdded();
+    }
+
+    @Override
+    public List<Consumption> getAll(){
+        return consumptionRepository.findAll();
+    }
+
 }
