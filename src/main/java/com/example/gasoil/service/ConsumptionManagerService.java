@@ -6,6 +6,7 @@ import com.example.gasoil.dao.repositories.ConsumptionRepository;
 import com.example.gasoil.dao.repositories.EngineRepository;
 
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,6 @@ public class ConsumptionManagerService implements ConsumptionManager{
     public ConsumptionManagerService(ConsumptionRepository consumptionRepository, EngineRepository engineRepository){
         this.consumptionRepository = consumptionRepository;
         this.engineRepository = engineRepository;
-
     }
 
     @Override
@@ -40,7 +40,6 @@ public class ConsumptionManagerService implements ConsumptionManager{
         }
         return consumptionRepository.save(consumption);
     }
-
     @Override
     public Consumption getConsumptionById(Integer id) {
         return consumptionRepository.findConsumptionByConsumptionId(id);
@@ -75,6 +74,7 @@ public class ConsumptionManagerService implements ConsumptionManager{
     // Data Set of the consumption of an engine between two date -> Graph
     // bug fixed: returns a treeMap of dates and totalConsumption of date within the range startDate and endDate
     // the worst function ever made
+
     public TreeMap<LocalDate, Double> getConsumptionsDataGraph(String matricule, LocalDate startDate, LocalDate endDate) {
 
         List<Consumption> consumptions = getAllConsumptionsByEngine(matricule);
@@ -113,6 +113,7 @@ public class ConsumptionManagerService implements ConsumptionManager{
         filteredConsumptionsTreeMap.putAll(filteredConsumptionMap);
 
         return filteredConsumptionsTreeMap;
+
     }
 
     // Month = currentMonth for dashboard case
@@ -138,9 +139,7 @@ public class ConsumptionManagerService implements ConsumptionManager{
 
     // return a Pair , first contains the matricule second the max consumption of the engine in the current month
     // find other way
-
     // last 30 days
-
     @Override
     public Pair<String, Double> getMaxTotalConsumptionCurrentMonth() {
 
@@ -181,5 +180,8 @@ public class ConsumptionManagerService implements ConsumptionManager{
     public List<Consumption> getAll(){
         return consumptionRepository.findAll();
     }
+
+
+
 
 }

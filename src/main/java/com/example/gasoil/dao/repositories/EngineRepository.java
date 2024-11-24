@@ -16,6 +16,5 @@ public interface EngineRepository extends JpaRepository<Engine, Integer> {
    // return the last 10 engines added to database
    @Query(value="SELECT  * FROM  engine ORDER BY engine_id DESC LIMIT 10", nativeQuery = true)
    List<Engine> findlastEnginesAdded();
-
    Optional<Engine> findByMatricule(String matricule);
 }

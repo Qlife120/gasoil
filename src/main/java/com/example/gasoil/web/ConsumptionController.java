@@ -2,11 +2,13 @@ package com.example.gasoil.web;
 
 import com.example.gasoil.dao.entities.Consumption;
 import com.example.gasoil.dao.entities.Engine;
+import com.example.gasoil.service.ConsumptionManager;
 import com.example.gasoil.service.ConsumptionManagerService;
 import com.example.gasoil.service.EngineManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +30,11 @@ public class ConsumptionController {
     private final ConsumptionManagerService consumptionManagerService;
     private final EngineManagerService engineManagerService;
 
+
     public ConsumptionController(ConsumptionManagerService consumptionManagerService, EngineManagerService engineManagerService){
         this.consumptionManagerService = consumptionManagerService;
         this.engineManagerService = engineManagerService;
+
     }
 
     // Tested
@@ -104,12 +108,14 @@ public class ConsumptionController {
 
        return new ResponseEntity<>(maxTotalConsumption,HttpStatus.OK);
    }
-
+    
+   // last consumptions added to database
+   // tested
    @GetMapping(path="api/consumption/lasttenenginesadded")
    public ResponseEntity<Object> getLastTenenginesadded(){
         logger.info("return last ten consumptions added to database.");
-        List<Consumption> lastTenEnginesadded = consumptionManagerService.getLastTenConsumptions();
-        return new ResponseEntity<>(lastTenEnginesadded,HttpStatus.OK);
+        List<Consumption> lastTenConsumptions = consumptionManagerService.getLastTenConsumptions();
+        return new ResponseEntity<>(lastTenConsumptions,HttpStatus.OK);
    }
 
 

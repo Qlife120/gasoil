@@ -25,11 +25,13 @@ public class Consumption {
 
     // Each consumption is related to a specific engine.
     @ManyToOne
+    @JoinColumn(name = "engine_id") // This ensures Hibernate maps to the correct column
     private Engine engine;
 
     public Consumption(LocalDate consumptionDate, double consumptionValue, Engine engine){
         this.consumptionDate=consumptionDate;
         this.consumption=consumptionValue;
+
         this.engine=engine;
 
     }

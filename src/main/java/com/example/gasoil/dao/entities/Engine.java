@@ -31,7 +31,7 @@ public class Engine {
 
     // Every attribute below is optional
     private String description;
-    // Etat du vehicule En marche, en panne , defectueux.
+
     @Enumerated(EnumType.STRING)
     private state engineState;
 
